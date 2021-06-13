@@ -1,0 +1,95 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TopHundredChallenge.Database;
+using TopHundredChallenge.Infra;
+using TopHundredChallenge.Models;
+using Xamarin.CommunityToolkit.UI.Views;
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+namespace TopHundredChallenge.Views
+{
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class WatchedMoviesPage : ContentPage
+    {
+        public ObservableCollection<MovieList> movies;
+
+        public WatchedMoviesPage()
+        {
+            InitializeComponent();
+            movies = new ObservableCollection<MovieList>();
+
+        }
+
+        private async Task OpenAnimation(View view, uint length = 250)
+        {
+            view.RotationX = -90;
+            view.IsVisible = true;
+            view.Opacity = 0;
+            _ = view.FadeTo(1, length);
+            await view.RotateXTo(0, length);
+        }
+
+        private async Task CloseAnimation(View view, uint length = 250)
+        {
+            _ = view.FadeTo(0, length);
+            await view.RotateXTo(-90, length);
+            view.IsVisible = false;
+        }
+
+        private async void MainExpander_Tapped(object sender, EventArgs e)
+        {
+            var expander = sender as Expander;
+            var imgView = expander.FindByName<Grid>("ImageView");
+            var detailsView = expander.FindByName<Grid>("DetailsView");
+
+            if (expander.IsExpanded)
+            {
+                await OpenAnimation(imgView);
+                await OpenAnimation(detailsView);
+            }
+            else
+            {
+                await CloseAnimation(detailsView);
+                await CloseAnimation(imgView);
+            }
+        }
+
+        protected async override void OnAppearing()
+        {
+            base.OnAppearing();
+            movies.Clear();
+            progressBar.IsVisible = true;
+            progressBar.Progress = 0;
+            await progressBar.ProgressTo(0.99, 500, Easing.Linear);
+            var result = await App.imdbManager.GetTopHundredMoviesAsync();
+            var watchedMovies = await SQLiteDb.GetMoviesAsync();
+            foreach (var item in watchedMovies)
+            {
+                var watchedMovie = result.movie_list.Find(a => a.ranking == Convert.ToString(item.MovieRank));
+                movies.Add(watchedMovie);
+            }
+            progressBar.IsVisible = false;
+            movieListView.ItemsSource = movies;
+
+        }
+
+        private async void Button_Clicked(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+            string ranking = (string)button.CommandParameter;
+            MovieList movie;
+            movie = movies.FirstOrDefault(a => a.ranking == ranking);
+            movies.Remove(movie);
+            int result = await SQLiteDb.DeleteMovieAsync(new SpecificMovie { MovieRank = Convert.ToInt32(movie.ranking) });
+            if (result == 1)
+                DependencyService.Get<ISnackInterface>().SnackbarShow(movie.Title + " moved to Top100 List.");
+            else
+                DependencyService.Get<ISnackInterface>().SnackbarShow("Someting went wrong. Try again!");
+        }
+    }
+}

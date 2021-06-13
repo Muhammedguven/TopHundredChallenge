@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:forms="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms"
+             x:Class="TopHundredChallenge.Views.MyProfilePage">
+    <ContentPage.Content>
+        <StackLayout x:Name="layout" Padding="0,20" >
+            <ProgressBar x:Name="progressBar" Visual="Material" Margin="0" ProgressColor="#D81F26"/>
+            <forms:ChartView x:Name="chart" VerticalOptions="StartAndExpand" BackgroundColor="Transparent" HorizontalOptions="Fill" HeightRequest="300" >
+            </forms:ChartView>
+            <StackLayout HeightRequest="350" VerticalOptions="End">
+                <Image Source="logo.png" HorizontalOptions="Center" Margin="0,40" HeightRequest="200" VerticalOptions="End"></Image>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
