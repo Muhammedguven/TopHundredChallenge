@@ -52,7 +52,7 @@
                                             </Grid.RowDefinitions>
                                             <Grid x:Name="ImageView" IsVisible="False">
                                                 <StackLayout>
-                                                    <Image Source="{Binding trailerPoster}" Aspect="AspectFill" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
+                                                    <ImageButton Clicked="ImageButton_Clicked" CommandParameter="{Binding trailerLink}" Source="{Binding trailerPoster}" Aspect="AspectFill" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand"/>
                                                 </StackLayout>
                                             </Grid>
                                             <Grid x:Name="DetailsView" Grid.Row="1" BackgroundColor="#111111" Padding="20,5" IsVisible="False">

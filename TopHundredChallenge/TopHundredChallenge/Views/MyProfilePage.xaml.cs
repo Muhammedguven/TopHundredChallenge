@@ -23,7 +23,11 @@ namespace TopHundredChallenge.Views
         public MyProfilePage()
         {
             InitializeComponent();
+            Device.StartTimer(TimeSpan.FromSeconds(4), () => {
 
+                Device.BeginInvokeOnMainThread(() => SliderEffect());
+                return true;
+            });
         }
 
         protected async override void OnAppearing()
@@ -45,7 +49,7 @@ namespace TopHundredChallenge.Views
                     ValueLabel = numberOfWatchedMovies.ToString()
                 });
             entries.Add(
-                new ChartEntry(100)
+                new ChartEntry(100-numberOfWatchedMovies)
                 {
                     Color = SkiaSharp.SKColor.Parse("#111111 "),
                     Label = "Number of movies to watch",
@@ -54,6 +58,11 @@ namespace TopHundredChallenge.Views
                 );
             var dependency = DependencyService.Get<INativeFont>();
             chart.Chart.LabelTextSize = dependency.GetNativeSize(14);
+        }
+        public async void SliderEffect()
+        {
+            await logo.ScaleTo(1.3, 800, Easing.SpringIn);
+            await logo.ScaleTo(1.0, 400, Easing.SpringOut);
         }
 
     }

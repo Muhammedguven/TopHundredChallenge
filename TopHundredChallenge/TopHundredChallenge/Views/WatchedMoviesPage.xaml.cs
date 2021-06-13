@@ -84,12 +84,28 @@ namespace TopHundredChallenge.Views
             string ranking = (string)button.CommandParameter;
             MovieList movie;
             movie = movies.FirstOrDefault(a => a.ranking == ranking);
-            movies.Remove(movie);
             int result = await SQLiteDb.DeleteMovieAsync(new SpecificMovie { MovieRank = Convert.ToInt32(movie.ranking) });
             if (result == 1)
-                DependencyService.Get<ISnackInterface>().SnackbarShow(movie.Title + " moved to Top100 List.");
+            {
+                DependencyService.Get<ISnackInterface>().SnackbarShow(movie.Title + " moved to Top 100 List.");
+                movies.Remove(movie);
+            }
             else
                 DependencyService.Get<ISnackInterface>().SnackbarShow("Someting went wrong. Try again!");
+        }
+
+        private void ImageButton_Clicked(object sender, EventArgs e)
+        {
+            ImageButton button = (ImageButton)sender;
+            string url = (string)button.CommandParameter;
+            if (url != null)
+            {
+                Navigation.PushAsync(new ImageDetailPage(url));
+            }
+            else
+            {
+                DependencyService.Get<ISnackInterface>().SnackbarShow("There is no video for this movie!");
+            }
         }
     }
 }

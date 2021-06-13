@@ -12,11 +12,12 @@ namespace TopHundredChallenge
         public static ImdbManager imdbManager { get; private set; }
         public App()
         {
+            Device.SetFlags(new string[] { "MediaElement_Experimetal" });
             InitializeComponent();
 
             imdbManager = new ImdbManager(new ImdbService());
 
-            MainPage = new HomePage();
+            MainPage = new NavigationPage( new HomePage());
         }
 
         protected override void OnStart()

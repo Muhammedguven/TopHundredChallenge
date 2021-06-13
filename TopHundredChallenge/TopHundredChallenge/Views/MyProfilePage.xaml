@@ -9,7 +9,7 @@
             <forms:ChartView x:Name="chart" VerticalOptions="StartAndExpand" BackgroundColor="Transparent" HorizontalOptions="Fill" HeightRequest="300" >
             </forms:ChartView>
             <StackLayout HeightRequest="350" VerticalOptions="End">
-                <Image Source="logo.png" HorizontalOptions="Center" Margin="0,40" HeightRequest="200" VerticalOptions="End"></Image>
+                <Image x:Name="logo" Source="logo.png" HorizontalOptions="Center" Margin="0,40" HeightRequest="200" VerticalOptions="End"></Image>
             </StackLayout>
         </StackLayout>
     </ContentPage.Content>
