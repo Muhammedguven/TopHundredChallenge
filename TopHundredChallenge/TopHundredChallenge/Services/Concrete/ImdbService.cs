@@ -11,7 +11,7 @@ namespace TopHundredChallenge.Services.Concrete
 {
     public class ImdbService:IImdbService
     {
-        string URL = "https://raw.githubusercontent.com/naim-lasker/imdb-top-100-movies/master/data/movies.json";
+        string URL = "https://raw.githubusercontent.com/Muhammedguven/TopHundredChallenge/master/top100.json";
         HttpClient client;
 
         public ImdbService()
