@@ -45,7 +45,7 @@
                                                 </StackLayout>
                                             </Grid>
                                         </behaviors:Expander.Header>
-                                        <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" HeightRequest="450">
+                                        <Grid RowSpacing="0" HorizontalOptions="FillAndExpand" HeightRequest="500">
                                             <Grid.RowDefinitions>
                                                 <RowDefinition Height="2*"/>
                                                 <RowDefinition Height="4*"/>
